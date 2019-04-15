@@ -8,6 +8,7 @@ import com.toune.myapp.helper.rxjavahelper.RxResultHelper
 import com.toune.myapp.helper.rxjavahelper.RxSchedulersHelper
 import com.toune.myapp.ui.model.TestVo
 import com.toune.myapp.ui.model.TodayOfHis
+import com.toune.myapp.ui.model.WnlVo
 import com.toune.myapp.ui.view.MainView
 import com.toune.util.rxtool.view.RxToast
 import io.reactivex.disposables.Disposable
@@ -48,6 +49,21 @@ class MainActivityPresenter : BasePresenterImpl<MainView>() {
 
                 override fun onCompleteMy() {
                     view!!.hideLoading()
+                }
+            })
+    }
+
+    fun getWnl(dateStr: String) {
+        ServiceManager.wnl(dateStr)
+            .compose(RxSchedulersHelper.io_main())
+            .compose(RxResultHelper.handleResult())
+            .subscribe(object : RxObserver<WnlVo>() {
+                override fun onNextMy(t: WnlVo) {
+                    view!!.setWnl(t)
+                }
+
+                override fun onErrorMy(errorMessage: String) {
+                    RxToast.error(errorMessage)
                 }
             })
     }

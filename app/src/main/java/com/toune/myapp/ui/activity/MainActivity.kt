@@ -10,6 +10,7 @@ import com.toune.myapp.R
 import com.toune.myapp.base.BaseActivity
 import com.toune.myapp.ui.model.TestVo
 import com.toune.myapp.ui.model.TodayOfHis
+import com.toune.myapp.ui.model.WnlVo
 import com.toune.myapp.ui.presenter.MainActivityPresenter
 import com.toune.myapp.ui.view.MainView
 import com.zhy.changeskin.SkinManager
@@ -23,6 +24,10 @@ class MainActivity : BaseActivity<MainView, MainActivityPresenter>(), MainView {
             today_of_history_tv.text = todayOfHis.title + "\n" + todayOfHis.des
             Glide.with(this).load(todayOfHis.pic).into(today_of_history_iv)
         }
+    }
+
+    override fun setWnl(wnl: WnlVo) {
+        wnlTv.text = "宜：\n" + wnl!!.data!!.suit + "\n忌：\n" + wnl!!.data!!.avoid
     }
 
     override fun initPresenter(): MainActivityPresenter {
@@ -39,10 +44,10 @@ class MainActivity : BaseActivity<MainView, MainActivityPresenter>(), MainView {
 
     override fun init(savedInstanceState: Bundle?) {
 //        mPresenter!!.getVideoList()
-        var calendar: Calendar = Calendar.getInstance()
-        var month = calendar!!.get(Calendar.MONTH)
-        var day = calendar!!.get(Calendar.DAY_OF_MONTH)
-        mPresenter!!.getTodayOfHis(month, day)
+//        var calendar: Calendar = Calendar.getInstance()
+//        var month = calendar!!.get(Calendar.MONTH)
+//        var day = calendar!!.get(Calendar.DAY_OF_MONTH)
+//        mPresenter!!.getTodayOfHis(month, day)
         var nCalendar: NCalendar = miuiCalendar
         nCalendar.setOnCalendarChangedListener(object : OnCalendarChangedListener {
             override fun onCalendarStateChanged(isMonthSate: Boolean) {
@@ -51,7 +56,16 @@ class MainActivity : BaseActivity<MainView, MainActivityPresenter>(), MainView {
 
             override fun onCalendarDateChanged(date: NDate?, isClick: Boolean) {
                 //日历状态回调， 月->周 isMonthSate返回false ，反之返回true
-                mPresenter!!.getTodayOfHis(date!!.localDate.monthOfYear, date!!.localDate.dayOfMonth)
+                var year = date!!.localDate.year
+                var month = date!!.localDate.monthOfYear
+                var day = date!!.localDate.dayOfMonth
+                mPresenter!!.getTodayOfHis(month, day)
+                var dateStr: String = year.toString() + "-" + month.toString() + "-" + day
+                mPresenter!!.getWnl(dateStr)
+
+                tv_month.text = month.toString() + "月"
+                tv_year.text = day.toString() + "年"
+                tv_lunar.text = date.lunar.lunarYearStr + date.lunar.lunarMonthStr + date.lunar.lunarDayStr
             }
 
         })
@@ -60,7 +74,6 @@ class MainActivity : BaseActivity<MainView, MainActivityPresenter>(), MainView {
                 SkinManager.getInstance().changeSkin("night")
             }
         })
-
         fab.setOnClickListener { onViewClicked() }
     }
 

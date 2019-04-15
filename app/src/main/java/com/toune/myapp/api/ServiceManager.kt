@@ -10,15 +10,17 @@ import com.toune.myapp.helper.ResponseData
 import com.toune.myapp.ui.model.TestVo
 import com.toune.myapp.ui.model.TodayOfHis
 import com.toune.myapp.ui.model.UpdateAppVo
+import com.toune.myapp.ui.model.WnlVo
 import io.reactivex.Observable
 import java.lang.reflect.Type
 
 object ServiceManager {
-    val Token = ""
-    var BaseUrl = "http://pay-forum.zydl-tec.cn"
-    var UpdateApp = "$BaseUrl/v1/app/my/check_version" //更新APP
-    val TestUrl = "$BaseUrl/v1/app/videos/list"
-    val TodayOfHistoryUrl = "http://api.juheapi.com/japi/toh"  //历史上的今天
+    var Token = ""
+    const val BaseUrl = "http://pay-forum.zydl-tec.cn"
+    const val UpdateApp = "$BaseUrl/v1/app/my/check_version" //更新APP
+    const val TestUrl = "$BaseUrl/v1/app/videos/list"
+    const val TodayOfHistoryUrl = "http://api.juheapi.com/japi/toh"  //历史上的今天
+    const val WnlUrl = "http://v.juhe.cn/calendar/day" //万年历
 
     fun getVideo(): Observable<ResponseData<TestVo>> {
         return OkGo.get<ResponseData<TestVo>>(TestUrl)
@@ -45,6 +47,16 @@ object ServiceManager {
         return OkGo.get<ResponseData<List<TodayOfHis>>>(TodayOfHistoryUrl)
             .params(httpParams)
             .converter(object : JsonConvert<ResponseData<List<TodayOfHis>>>() {})
+            .adapt(ObservableBody())
+    }
+
+    fun wnl(date: String): Observable<ResponseData<WnlVo>> {
+        var httpParams = HttpParams()
+        httpParams.put("key", AppConstant.JUHE_WNL_KEY)
+        httpParams.put("date", date)
+        return OkGo.get<ResponseData<WnlVo>>(WnlUrl)
+            .params(httpParams)
+            .converter(object : JsonConvert<ResponseData<WnlVo>>() {})
             .adapt(ObservableBody())
     }
 }

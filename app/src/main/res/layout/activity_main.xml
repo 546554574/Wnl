@@ -7,50 +7,107 @@
                 android:tag="skin:root_view_bg:background">
     <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
                   android:orientation="vertical">
-        <com.necer.calendar.Miui10Calendar
-                android:id="@+id/miuiCalendar"
+
+        <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="150dp"
+                android:background="#38AE80"
+                android:paddingBottom="5dp">
 
-            <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-        </com.necer.calendar.Miui10Calendar>
 
-        <android.support.v4.widget.NestedScrollView android:layout_width="match_parent"
-                                                    android:layout_height="wrap_content">
-            <LinearLayout
+            <TextView
+                    android:id="@+id/tv_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="40dp"
+                    android:text="9月"
+                    android:textColor="#ffffff"
+                    android:textSize="30sp"/>
+
+            <TextView
+                    android:id="@+id/tv_year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="55dp"
+                    android:layout_toRightOf="@id/tv_month"
+                    android:text="2017nian"
+                    android:textColor="#ffffff"/>
+
+            <TextView
+                    android:id="@+id/tv_lunar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginRight="15dp"
+                    android:text=""
+                    android:textColor="#ffffff"/>
+
+
+            <com.necer.view.WeekBar
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/dp_10">
+                    android:layout_alignParentBottom="true"
+                    android:textColor="#ffffff"/>
 
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/today_of_history"/>
+
+        </RelativeLayout>
+        <com.necer.calendar.Miui9Calendar
+                android:id="@+id/miuiCalendar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <android.support.v4.widget.NestedScrollView
+                    android:id="@+id/scrollView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
 
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:orientation="vertical"
+                        android:padding="@dimen/dp_10">
+                    <!--万年历-->
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                                  android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                  android:id="@+id/wnlTv"
+                                  android:textColor="@color/red"/>
+                    </LinearLayout>
+                    <!--历史上的今天-->
                     <TextView
-                            android:id="@+id/today_of_history_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_5"/>
+                            android:text="@string/today_of_history"/>
 
-                    <ImageView
-                            android:id="@+id/today_of_history_iv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
 
+                        <TextView
+                                android:id="@+id/today_of_history_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dp_5"/>
+
+                        <ImageView
+                                android:id="@+id/today_of_history_iv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
+            </android.support.v4.widget.NestedScrollView>
+        </com.necer.calendar.Miui9Calendar>
     </LinearLayout>
+
+
     <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
